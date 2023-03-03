@@ -1,0 +1,18 @@
+{
+  "name": "crm_graphql",
+  "version": "1.0.0",
+  "description": "Curso de Graphql",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "equinox",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
