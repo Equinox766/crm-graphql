@@ -15,13 +15,22 @@ const typeDefs = gql`
             email: String!
             password: String!
         }
+    input AutenticarInput {
+            email: String!
+            password: String!
+        }
+    
+    type Token  {
+            token: String
+        }
 
     type Query {
             obtenerCurso: String
         }
     type Mutation {
-        nuevoUsuario(input: UsuarioInput) : Usuario
-    }
+            nuevoUsuario(input: UsuarioInput) : Usuario
+            autenticarUsuario(input: AutenticarInput) : Token 
+        }
 `;
 
 module.exports = typeDefs;
