@@ -1,4 +1,5 @@
 const Usuario = require("../models/Usuario");
+const Producto = require("../models/Producto");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require('dotenv').config({path: 'variables.env'});
@@ -11,7 +12,29 @@ const crearToken = (usuario, secreta, expiresIn) => {
 
 const resolvers = {
     Query: {
-        obtenerCurso: () => "algo"
+        obtenerUsuario: async (_, { token }) => {
+            const usuarioId = await jwt.verify(token, process.env.SECRETA);
+
+            return usuarioId;
+        },
+        obtenerProductos: async () => {
+            try {
+                const productos = await Producto.find({});
+                return productos;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        obtenerProducto: async (_,{ id }) => {
+           //Revisar si el producto existe o no
+           const producto = await Producto.findById(id);
+           
+           if (!producto) {
+                throw new Error('Producto no encontado');
+           }
+
+           return producto;
+        }
     },
     Mutation: {
         nuevoUsuario: async (_, {input}) => {
@@ -56,7 +79,45 @@ const resolvers = {
                 token: crearToken(existeUsuario, process.env.SECRETA, '24h')
             }
 
+        },
+        nuevoProducto: async (_, {input}) => {
+            try {
+                const producto = new Producto(input);
+
+                //Almacenar en la bd
+                const resultado = await producto.save();
+
+                return resultado;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        actualizarProducto: async (_, {id, input}) => {
+            //Revisar si el producto existe o no
+           let producto = await Producto.findById(id);
+           
+           if (!producto) {
+                throw new Error('Producto no encontado');
+           }
+
+           //Guardarlo en la bd
+           producto = await Producto.findOneAndUpdate({_id : id}, input, { new: true });
+
+           return producto;
+        },
+        eliminarProducto: async (_, { id }) => {
+            let producto = await Producto.findById(id);
+           
+           if (!producto) {
+                throw new Error('Producto no encontado');
+           }
+
+           // Eliminar 
+           await Producto.findOneAndDelete({_id: id});
+
+           return "Producto Eliminado";
         }
+
     }
 }
 
