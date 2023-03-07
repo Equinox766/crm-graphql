@@ -238,6 +238,11 @@ const resolvers = {
                 const producto = await Producto.findById(id);
                 if (articulo.cantidad > producto.existencia) {
                     throw new Error(`El articulo: ${producto.nombre} excede la cantidad disponible`);
+                } else {
+                    //Restar la cantidad disponible
+                    producto.existencia = producto.existencia - articulo.cantidad;
+
+                    await producto.save();
                 }
             };
 
