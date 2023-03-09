@@ -16,10 +16,8 @@ const resolvers = {
     Query: {
 
         //Seccion USUARIO
-        obtenerUsuario: async (_, { token }) => {
-            const usuarioId = await jwt.verify(token, process.env.SECRETA);
-
-            return usuarioId;
+        obtenerUsuario: async (_, {}, ctx) => {
+            return ctx.usuario;
         },
 
         //Seccion PRODUCTOS
@@ -257,12 +255,11 @@ const resolvers = {
 
         // Seccion de CRUD Cliente
         nuevoCliente: async (_, {input}, ctx) => {
-            console.log(ctx);
             //Verificar si el cliente ya esta registrado
             const { email } = input;
 
-            const cliente = Cliente.findOne({ email });
-            if (!cliente) {
+            const cliente = await Cliente.findOne({ email });
+            if (cliente) {
                 throw new Error('El Cliente ya esta registrado');
             }
 
