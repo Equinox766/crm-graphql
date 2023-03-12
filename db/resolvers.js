@@ -11,7 +11,6 @@ const crearToken = (usuario, secreta, expiresIn) => {
     const { id, email, nombre, apellido } = usuario;
     return jwt.sign({ id, email, nombre, apellido }, secreta, {expiresIn})
 }
-
 const resolvers = {
     Query: {
 
@@ -305,12 +304,12 @@ const resolvers = {
            }
 
            //Verificar si el vendedor es quien edita
-           if(cliente.vendedor.toString() !== ctx.usuario.id) {
-                throw new Error('No tienes las credenciales');
-            }
+        //    if( cliente.vendedor.toString() !== ctx.usuario.id ) {
+        //         throw new Error('No tienes las credenciales');
+        //     }
 
            // Eliminar 
-           await cliente.findOneAndDelete({_id: id});
+           await Cliente.findOneAndDelete({_id : id});
 
            return "Cliente Eliminado";
         },
