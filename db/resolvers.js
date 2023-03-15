@@ -49,7 +49,7 @@ const resolvers = {
         },
         obtenerClienteVendedor: async (_, {}, ctx) => {
             try {
-                const clientes = await Cliente.find({ vendedor: ctx.usuario.id.toString() })
+                const clientes = await Cliente.find({ vendedor: ctx.usuario.id })
                 return clientes;
             } catch (error) {
                 console.log(error);
