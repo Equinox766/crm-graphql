@@ -88,6 +88,7 @@ const typeDefs = gql`
             cantidad: Int
             nombre: String
             precio: Float
+            creado: String
         }
 
     input PedidoInput {
