@@ -48,6 +48,10 @@ const resolvers = {
             }
         },
         obtenerClienteVendedor: async (_, {}, ctx) => {
+            const vendedorId = ctx.usuario ? ctx.usuario.id : null;
+            if (!vendedorId) {
+                throw new Error('El usuario no está logueado');
+            }
             try {
                 const clientes = await Cliente.find({ vendedor: ctx.usuario.id.toString() })
                 return clientes;
@@ -81,9 +85,13 @@ const resolvers = {
             }
         },
         obtenerPedidoVendedor: async (_, {}, ctx) => {
+            const vendedorId = ctx.usuario ? ctx.usuario.id : null;
+            if (!vendedorId) {
+                throw new Error('El usuario no está logueado');
+            }
             try {
                 const pedidos = await Pedido.find({ vendedor: ctx.usuario.id }).populate('cliente');
-                console.log(pedidos);
+            
                 return pedidos;
             } catch (error) {
                 console.log(error);
