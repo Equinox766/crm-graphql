@@ -113,8 +113,8 @@ const resolvers = {
             //retotnar el resultado
             return pedido;
         },
-        obtenerPedidosEstado: async (_, {estado}, ctx) => {
-            const pedidos = await Pedido.find({ vendedor: ctx.usuario.id, estado});
+        obtenerPedidosEstado: async (_, { estado }, ctx) => {
+            const pedidos = await Pedido.find({ vendedor: ctx.usuario.id, estado });
 
             return pedidos;
         },
@@ -378,7 +378,7 @@ const resolvers = {
            
            
             if (!existePedido) {
-                    throw new Error('Pedido no existe');
+                throw new Error('Pedido no existe');
             }
 
             //Si el cliente existe
@@ -386,7 +386,7 @@ const resolvers = {
            
            
             if (!clienteExiste) {
-                    throw new Error('Cliente no encontado');
+                throw new Error('Cliente no existe');
             }
 
             // Si pertenece al vendedor
